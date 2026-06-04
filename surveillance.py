@@ -21,7 +21,7 @@ def resource_path(relative_path):
     except Exception:
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
-model = YOLO(resource_path("yolov8x.pt"))
+model = YOLO(resource_path("last.pt"))
 
 os.makedirs("Snapshots", exist_ok = True)
 def send_whatsapp(message):
@@ -63,14 +63,12 @@ while True:
                 x1,y1,x2,y2 = map(int, box.xyxy[0])
                 cv2.rectangle(frame, (x1,y1), (x2,y2), (0,255,0), 2)
         violation = None
-        if "person" in detected and "helmet" not in detected:
+        if "NO-Hardhat" in detected:
             violation = "Helmet Missing"
-        if "person" in detected and "vest" not in detected:
+        if "NO-Saefty Vest" in detected:
             violation = "Safety Vest Missing"
-        if "fire" in detected:
-            violation = "Fire Detected"
-        if "smoke" in detected:
-            violation = "Smoke Detected"
+        if "machinery" in detected and "Safety Cone" not in detected:
+            violation = "Safety Cone missing"
         
         if violation:
 
